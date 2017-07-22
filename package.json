@@ -1,0 +1,27 @@
+{
+  "name": "hrm-deploy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "hrm-deploy": "deploy.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renliwo/hrm-deploy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/renliwo/hrm-deploy/issues"
+  },
+  "homepage": "https://github.com/renliwo/hrm-deploy#readme",
+  "dependencies": {
+    "commander": "^2.11.0",
+    "request": "^2.81.0"
+  }
+}
