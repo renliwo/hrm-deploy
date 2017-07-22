@@ -37,25 +37,15 @@ function checkDeployStatus(version) {
 
 if (checkCDN(version)) {
   tag = spawn("git", ["tag", `publish/${version}`]);
-  //  push = spawn(`sudo git push origin publish/${version}`);
-  // 捕获标准输出并将其打印到控制台
-  tag.stdout.on("data", function(data) {
-    console.log("tag已建立:\n" + data);
-  });
   // 捕获标准错误输出并将其打印到控制台
   tag.stderr.on("data", function(data) {
-    console.log("tag 建立失败:\n" + data);
+    console.log("" + data);
   });
 
   push = spawn("git", ["push", "origin", `publish/${version}`]);
-  //  push = spawn(`sudo git push origin publish/${version}`);
-  // 捕获标准输出并将其打印到控制台
-  push.stdout.on("data", function(data) {
-    console.log("tag已推送到远端:\n" + data);
-  });
   // 捕获标准错误输出并将其打印到控制台
   push.stderr.on("data", function(data) {
-    console.log("tag未能推送到远端:\n" + data);
+    console.log("" + data);
   });
 
   checkDeployStatus(version);
