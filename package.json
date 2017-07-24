@@ -1,10 +1,10 @@
 {
   "name": "hrm-deploy",
-  "version": "1.0.0",
+  "version": "0.0.3",
   "description": "",
-  "main": "index.js",
+  "main": "bin/deploy.js",
   "bin": {
-    "hrm-deploy": "deploy.js"
+    "hrm-deploy": "./bin/deploy.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,6 +22,7 @@
   "homepage": "https://github.com/renliwo/hrm-deploy#readme",
   "dependencies": {
     "commander": "^2.11.0",
+    "isomorphic-fetch": "^2.2.1",
     "request": "^2.81.0"
   }
 }
