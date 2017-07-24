@@ -62,23 +62,27 @@ async function startProcess() {
       ]);
       track.on("exit", code => {
         if (code === 1) {
+          // 未能找到对应的远程分支
           console.info("找不到远程分支，请确保远程有对应的分支. git branch --remote");
           process.exit(code);
-        } // 未能找到对应的远程分支
-      });
-      pull = spawn("git", ["pull"]);
+        } else {
+          pull = spawn("git", ["pull"]);
 
-      tag = spawn("git", ["tag", `publish/${version}`]);
-      // 捕获标准错误输出并将其打印到控制台
-      tag.stderr.on("data", function(data) {
-        console.log("" + data);
-      });
-
-      push = spawn("git", ["push", "origin", `publish/${version}`]);
-      // 捕获标准错误输出并将其打印到控制台
-      push.stderr.on("data", function(data) {
-        console.log("" + data);
-        checkDeployStatus(version);
+          tag = spawn("git", ["tag", `publish/${version}`]);
+          // 捕获标准错误输出并将其打印到控制台
+          tag.on("exit", code => {
+            if (code === 128) {
+              console.error("当前tag已经建立，若坚持这么做，请先删除对应tag");
+            } else if (!code) {
+              push = spawn("git", ["push", "origin", `publish/${version}`]);
+              // 捕获标准错误输出并将其打印到控制台
+              push.stderr.on("data", function(data) {
+                console.log("" + data);
+                checkDeployStatus(version);
+              });
+            }
+          });
+        }
       });
     });
   } else {
