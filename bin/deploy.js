@@ -48,14 +48,14 @@ async function startProcess() {
 
   const notFound = await checkCDN(version);
   if (notFound) {
-    newbranch = spawn("git", ["checkout", "-b", `daily/${version}`]);
+    var newbranch = spawn("git", ["checkout", "-b", `daily/${version}`]);
     // 捕获标准错误输出并将其打印到控制台
     newbranch.on("exit", function(code) {
       if (code === 128) {
         // 已经有这个分支了
-        checkout = spawn("git", ["checkout", `daily/${version}`]);
+        var checkout = spawn("git", ["checkout", `daily/${version}`]);
       }
-      track = spawn("git", [
+      var track = spawn("git", [
         "branch",
         `--set-upstream-to=origin/daily/${version}`,
         `daily/${version}`
@@ -66,18 +66,20 @@ async function startProcess() {
           process.exit(code);
         } // 未能找到对应的远程分支
       });
-      pull = spawn("git", ["pull"]);
+      spawn("git", ["pull"]);
 
-      tag = spawn("git", ["tag", `publish/${version}`]);
+      var tag = spawn("git", ["tag", `publish/${version}`]);
       // 捕获标准错误输出并将其打印到控制台
       tag.stderr.on("data", function(data) {
         console.log("" + data);
       });
 
-      push = spawn("git", ["push", "origin", `publish/${version}`]);
+      var push = spawn("git", ["push", "origin", `publish/${version}`]);
       // 捕获标准错误输出并将其打印到控制台
       push.stderr.on("data", function(data) {
         console.log("" + data);
+      });
+      push.stdout.on("data", function(data) {
         checkDeployStatus(version);
       });
     });
